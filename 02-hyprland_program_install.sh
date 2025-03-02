@@ -159,6 +159,7 @@ sudo pacman -S --noconfirm --needed xdg-user-dirs
 
 # TÖMÖRÍTŐK
 #sudo pacman -S --noconfirm --needed unace unrar zip unzip sharutils  uudeview  arj cabextract file-roller
+sudo pacman -S --noconfirm --needed tar zip unrar 7zip
 
 # BETŰTÍPUSOK
 
