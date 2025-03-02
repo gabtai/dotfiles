@@ -162,19 +162,12 @@ sudo pacman -S --noconfirm --needed xdg-user-dirs
 
 # BETŰTÍPUSOK
 
-#sudo pacman -S adobe-source-sans-pro-fonts --noconfirm --needed
-#sudo pacman -S cantarell-fonts --noconfirm --needed
-#sudo pacman -S noto-fonts --noconfirm --needed
-#sudo pacman -S ttf-bitstream-vera --noconfirm --needed
-#sudo pacman -S ttf-dejavu --noconfirm --needed
-#sudo pacman -S ttf-droid --noconfirm --needed
-#sudo pacman -S ttf-hack --noconfirm --needed
-#sudo pacman -S ttf-font-awesome --noconfirm --needed
-#sudo pacman -S ttf-inconsolata --noconfirm --needed
-#sudo pacman -S ttf-liberation --noconfirm --needed
-#sudo pacman -S ttf-roboto --noconfirm --needed
-#sudo pacman -S ttf-ubuntu-font-family --noconfirm --needed
-#sudo pacman -S noto-fonts-emoji --noconfirm --needed
+sudo pacman -S ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code /
+  	ttf-fira-mono ttf-fira-sans ttf-firacode-nerd ttf-iosevka-nerd /
+   	ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono /
+    	ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono
+
+
 
 # SZEMÉLYES PROGRAMOK
 
