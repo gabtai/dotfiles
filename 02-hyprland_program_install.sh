@@ -163,10 +163,10 @@ sudo pacman -S --noconfirm --needed tar zip unrar 7zip
 
 # BETŰTÍPUSOK
 
-sudo pacman -S ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code /
-  	ttf-fira-mono ttf-fira-sans ttf-firacode-nerd ttf-iosevka-nerd /
-   	ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono /
-    	ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono
+sudo pacman -S ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code \
+	ttf-fira-mono ttf-fira-sans ttf-firacode-nerd ttf-iosevka-nerd \
+	ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono \
+	ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono
 
 
 
