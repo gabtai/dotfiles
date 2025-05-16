@@ -11,7 +11,7 @@ sudo pacman -Syyu --noconfirm
 
 # KIEGÉSZÍTŐ PROGRAMOK
 
-sudo pacman -S --noconfirm --needed btop reflector xdg-user-dirs imagemagick
+sudo pacman -S --noconfirm --needed btop reflector xdg-user-dirs imagemagick fastfetch
 
 # TÖMÖRÍTŐK
 #sudo pacman -S --noconfirm --needed unace unrar zip unzip sharutils  uudeview  arj cabextract file-roller
@@ -19,7 +19,8 @@ sudo pacman -S --noconfirm --needed btop reflector xdg-user-dirs imagemagick
 
 # BETŰTÍPUSOK
 
-sudo pacman -S ttf-jetbrains-mono-nerd ttf-firacode-nerd noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
+sudo pacman -S otf-font-awesome ttf-fira-sans ttf-fira-code ttf-dejavu ttf-jetbrains-mono-nerd /
+ttf-firacode-nerd noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
 
 
 # UCode installer - Credit Lordify
