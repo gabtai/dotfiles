@@ -17,7 +17,7 @@ sudo pacman -S --noconfirm --needed btop reflector xdg-user-dirs imagemagick
 
 # BETŰTÍPUSOK
 
-sudo pacman -S ttf-jetbrains-mono-nerd ttf-firacode-nerd
+sudo pacman -S ttf-jetbrains-mono-nerd ttf-firacode-nerd noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
 
 
 # UCode installer - Credit Lordify
