@@ -6,5 +6,7 @@ set -e
 ###		Specifikus cuccok	     ###
 ################################################
 
-sudo pacman -S --noconfirm --needed hyprland hyprpaper hyprlock hypridle hyprpicker xdg-desktop-portal-hyprland libnotify kitty qt5-wayland qt6-wayland uwsm
+sudo pacman -S --noconfirm --needed hyprland hyprpaper hyprlock hypridle hyprpicker xdg-desktop-portal-hyprland /
+libnotify kitty qt5-wayland qt6-wayland uwsm rofi-wayland polkit-gnome papirus-icon-theme flatpak swaync gvfs /
+bibata-cursor-theme-bin
 
