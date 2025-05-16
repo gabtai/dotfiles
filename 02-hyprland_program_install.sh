@@ -5,6 +5,8 @@ set -e
 ###		v3.0 (HYPRLAND)			###
 ###################################################
 
+CPU=$(lscpu | grep "AMD" -c)
+
 sudo pacman -Syyu --noconfirm
 
 # KIEGÉSZÍTŐ PROGRAMOK
