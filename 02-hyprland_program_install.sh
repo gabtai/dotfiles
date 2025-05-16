@@ -19,7 +19,7 @@ sudo pacman -S --noconfirm --needed btop reflector xdg-user-dirs imagemagick fas
 
 # BETŰTÍPUSOK
 
-sudo pacman -S otf-font-awesome ttf-fira-sans ttf-fira-code ttf-dejavu ttf-jetbrains-mono-nerd /
+sudo pacman -S otf-font-awesome ttf-fira-sans ttf-fira-code ttf-dejavu ttf-jetbrains-mono-nerd \
 ttf-firacode-nerd noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
 
 
