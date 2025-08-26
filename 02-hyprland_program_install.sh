@@ -26,7 +26,7 @@ polkit-gnome openrgb flatpak hblock mousepad mc zsh openrgb solaar \
 thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk
 
 # Temak
-sudo pacman -S --noconfirm --needed papirus-icon-theme
+sudo pacman -S --noconfirm --needed papirus-icon-theme nwg-look
 
 
 # TÖMÖRÍTŐK
