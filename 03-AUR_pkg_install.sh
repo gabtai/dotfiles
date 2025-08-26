@@ -6,7 +6,7 @@ set -e
 ###		Specifikus cuccok	     ###
 ################################################
 
-paru -S --noconfirm --needed  bibata-cursor-theme-bin \ 
-brave-bin protonplus youtube-music-bin palemoon-gtk3-bin \ 
-itch-bin 
+paru -S --noconfirm --needed  bibata-cursor-theme-bin \
+brave-bin protonplus youtube-music-bin palemoon-gtk3-bin \
+itch-bin
 

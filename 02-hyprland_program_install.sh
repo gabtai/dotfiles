@@ -22,11 +22,11 @@ discord wine-staging wine-mono wine-gecko
 
 sudo pacman -S --noconfirm --needed btop reflector xdg-user-dirs \
 imagemagick fastfetch network-manager-applet bat git fastfetch \
-polkit-gnome openrgb flatpak hblock mousepad mc zsh openrgb solaar \ 
-thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk \ 
+polkit-gnome openrgb flatpak hblock mousepad mc zsh openrgb solaar \
+thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk
 
 # Temak
-sudo pacman -S --noconfirm --needed papirus-icon-theme arc-gtk-theme
+sudo pacman -S --noconfirm --needed papirus-icon-theme
 
 
 # TÖMÖRÍTŐK
