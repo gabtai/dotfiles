@@ -11,7 +11,7 @@ sudo pacman -Syyu --noconfirm
 
 # Hyprland es tartozekai
 
-sudo pacman -S hyprland kitty waybar 
+sudo pacman -S hyprland kitty waybar hyprsunset swaync
 
 # Gaming
 
@@ -20,10 +20,11 @@ discord wine-staging wine-mono wine-gecko
 
 # KIEGÉSZÍTŐ PROGRAMOK
 
-sudo pacman -S --noconfirm --needed btop reflector xdg-user-dirs \
+sudo pacman -S --noconfirm --needed udiskie reflector xdg-user-dirs \
 imagemagick fastfetch network-manager-applet bat git fastfetch \
 polkit-gnome openrgb flatpak hblock mousepad mc zsh openrgb solaar \
-thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk
+thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk \
+pavucontrol
 
 # Temak
 sudo pacman -S --noconfirm --needed papirus-icon-theme nwg-look
@@ -37,7 +38,8 @@ sudo pacman -S --noconfirm --needed file-roller zip unrar 7zip unzip
 # BETŰTÍPUSOK
 
 sudo pacman -S otf-font-awesome ttf-dejavu ttf-roboto ttf-dejavu \
-ttf-firacode-nerd noto-fonts noto-fonts-emoji ttf-liberation
+ttf-firacode-nerd noto-fonts noto-fonts-emoji ttf-liberation \
+ttf-fira-sans
 
 
 # UCode installer - Credit Lordify
