@@ -3,3 +3,5 @@
 sudo mkdir -p /etc/brave/policies/managed
 
 sudo cp brave_policies.json /etc/brave/policies/managed/
+
+sudo cp 90-corectrl.rules /etc/polkit-1/rules.d/
