@@ -11,7 +11,7 @@ sudo pacman -Syyu --noconfirm
 
 # Hyprland es tartozekai
 
-sudo pacman -S hyprland foot waybar hyprsunset swaync
+sudo pacman -S hyprland foot hyprsunset swaync gtklock
 
 # KIEGÉSZÍTŐ PROGRAMOK
 
