@@ -11,12 +11,7 @@ sudo pacman -Syyu --noconfirm
 
 # Hyprland es tartozekai
 
-sudo pacman -S hyprland kitty waybar hyprsunset swaync
-
-# Gaming
-
-sudo pacman -S lutris steam gamemode lib32-gamemode corectrl \
-discord wine-staging wine-mono wine-gecko 
+sudo pacman -S hyprland foot waybar hyprsunset swaync
 
 # KIEGÉSZÍTŐ PROGRAMOK
 
@@ -24,10 +19,10 @@ sudo pacman -S --noconfirm --needed udiskie reflector xdg-user-dirs \
 imagemagick fastfetch network-manager-applet bat git fastfetch \
 polkit-gnome openrgb flatpak hblock mousepad mc zsh openrgb solaar \
 thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk \
-pavucontrol
+pavucontrol xdg-desktop-portal-hyprland
 
-# Temak
-sudo pacman -S --noconfirm --needed papirus-icon-theme nwg-look
+# Theams
+sudo pacman -S --noconfirm --needed papirus-icon-theme nwg-look nwg-panel
 
 
 # TÖMÖRÍTŐK
@@ -37,10 +32,12 @@ sudo pacman -S --noconfirm --needed file-roller zip unrar 7zip unzip
 
 # BETŰTÍPUSOK
 
-sudo pacman -S otf-font-awesome ttf-dejavu ttf-roboto ttf-dejavu \
-ttf-firacode-nerd noto-fonts noto-fonts-emoji ttf-liberation \
-ttf-fira-sans
+sudo pacman -S otf-font-awesome ttf-dejavu noto-fonts noto-fonts-emoji cantarell-fonts
 
+# Gaming
+
+sudo pacman -S lutris steam gamemode lib32-gamemode corectrl \
+discord wine-staging wine-mono wine-gecko 
 
 # UCode installer - Credit Lordify
   if [[ $CPU -gt 0 ]]; then
