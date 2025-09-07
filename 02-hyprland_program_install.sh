@@ -11,7 +11,11 @@ sudo pacman -Syyu --noconfirm
 
 # Hyprland es tartozekai
 
-sudo pacman -S hyprland foot hyprsunset swaync gtklock
+sudo pacman -S hyprland foot hyprsunset swaync gtklock swaybg nwg-look nwg-panel nwg-drawer
+
+# BETŰTÍPUSOK
+
+sudo pacman -S otf-font-awesome ttf-dejavu noto-fonts noto-fonts-emoji cantarell-fonts
 
 # KIEGÉSZÍTŐ PROGRAMOK
 
@@ -22,7 +26,7 @@ thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk \
 pavucontrol xdg-desktop-portal-hyprland
 
 # Theams
-sudo pacman -S --noconfirm --needed papirus-icon-theme nwg-look nwg-panel
+sudo pacman -S --noconfirm --needed papirus-icon-theme
 
 
 # TÖMÖRÍTŐK
@@ -30,14 +34,10 @@ sudo pacman -S --noconfirm --needed papirus-icon-theme nwg-look nwg-panel
 #sudo pacman -S --noconfirm --needed tar zip unrar 7zip
 sudo pacman -S --noconfirm --needed file-roller zip unrar 7zip unzip
 
-# BETŰTÍPUSOK
-
-sudo pacman -S otf-font-awesome ttf-dejavu noto-fonts noto-fonts-emoji cantarell-fonts
-
 # Gaming
 
 sudo pacman -S lutris steam gamemode lib32-gamemode corectrl \
-discord wine-staging wine-mono wine-gecko 
+discord wine-staging wine-mono wine-gecko
 
 # UCode installer - Credit Lordify
   if [[ $CPU -gt 0 ]]; then
