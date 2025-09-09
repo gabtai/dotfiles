@@ -41,4 +41,11 @@ else
     echo "$SWAPFILE none swap defaults 0 0" >> /etc/fstab
 fi
 
+# Létrehozzuk vagy felülírjuk a swappiness konfigurációt
+SWAPPINESS_CONF="/etc/sysctl.d/99-swappiness.conf"
+echo "vm.swappiness = 30" > "$SWAPPINESS_CONF"
+echo "Swappiness beállítása ($SWAPPINESS_CONF):"
+cat "$SWAPPINESS_CONF"
+sysctl --system > /dev/null
+
 echo "Kész! Az 8 GB-os swap használatra kész és automatikusan betöltődik újraindításkor."
