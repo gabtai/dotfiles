@@ -11,11 +11,11 @@ sudo pacman -Syyu --noconfirm
 
 # Hyprland es tartozekai
 
-sudo pacman -S hyprland foot hyprsunset swaync gtklock swaybg nwg-look nwg-panel nwg-drawer
+sudo pacman -S --noconfirm --needed hyprland foot hyprsunset swaync gtklock swaybg nwg-look nwg-panel nwg-drawer
 
 # BETŰTÍPUSOK
 
-sudo pacman -S otf-font-awesome ttf-dejavu noto-fonts noto-fonts-emoji cantarell-fonts
+sudo pacman -S --noconfirm --needed otf-font-awesome ttf-dejavu noto-fonts noto-fonts-emoji cantarell-fonts
 
 # KIEGÉSZÍTŐ PROGRAMOK
 
@@ -36,8 +36,8 @@ sudo pacman -S --noconfirm --needed file-roller zip unrar 7zip unzip
 
 # Gaming
 
-sudo pacman -S lutris steam gamemode lib32-gamemode corectrl \
-discord wine-staging wine-mono wine-gecko
+sudo pacman -S --noconfirm --needed lutris steam gamemode lib32-gamemode corectrl \
+discord wine-staging wine-mono wine-gecko vulkan-radeon lib32-vulkan-radeon
 
 # UCode installer - Credit Lordify
   if [[ $CPU -gt 0 ]]; then
