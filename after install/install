@@ -5,3 +5,11 @@ sudo mkdir -p /etc/brave/policies/managed
 sudo cp brave_policies.json /etc/brave/policies/managed/
 
 sudo cp 90-corectrl.rules /etc/polkit-1/rules.d/
+
+sudo cp 75-noto-color-emoji.conf /usr/share/fontconfig/conf.default/
+
+sudo ln -sf /usr/share/fontconfig/conf.default/75-noto-color-emoji.conf /etc/fonts/conf.d/
+
+chsh -s $(which zsh)
+
+curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
