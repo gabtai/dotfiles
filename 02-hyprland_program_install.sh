@@ -23,7 +23,7 @@ sudo pacman -S --noconfirm --needed udiskie reflector xdg-user-dirs \
 imagemagick fastfetch network-manager-applet bat git fastfetch \
 polkit-gnome openrgb flatpak hblock mousepad mc zsh openrgb solaar \
 thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk \
-pavucontrol xdg-desktop-portal-hyprland
+pavucontrol xdg-desktop-portal-hyprland gvfs
 
 # Theams
 sudo pacman -S --noconfirm --needed papirus-icon-theme
