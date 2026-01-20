@@ -1,42 +1,48 @@
 #!/bin/bash
 set -e
 ###################################################
-###    Zsh & Zimfw Konfiguráló Script           ###
-###    v1.1 (Minimál git, Max sebesség)         ###
+###    Bash Konfiguráló Script (Rendrakó)       ###
+###    v1.2 - Absolute Minimalist               ###
 ###################################################
 
-echo "--- Zsh és Zimfw beállítása ---"
+echo "--- Bash kényelmi funkciók beállítása ---"
 
-# 1. Zimfw letöltése és telepítése
-if [ ! -f ${ZDOTDIR:-${HOME}}/.zim/zimfw.zsh ]; then
-    echo "Zimfw telepítése..."
-    curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
-else
-    echo "Zimfw már telepítve van."
-fi
+cat <<EOF > ~/.bashrc
+# --- 1. Alapvető színek és kényelem ---
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
 
-# 2. .zimrc módosítása (Letisztult lista)
-echo "Zimfw modulok konfigurálása..."
-cat <<EOF > ${ZDOTDIR:-${HOME}}/.zimrc
-# Modulok listája (Git nélkül)
-zmodule archive
-zmodule completion
-zmodule zsh-users/zsh-autosuggestions
-zmodule zsh-users/zsh-syntax-highlighting
-zmodule romkatv/powerlevel10k --use degit
+# --- 2. History ---
+HISTCONTROL=ignoreboth
+HISTSIZE=10000
+HISTFILESIZE=20000
+shopt -s histappend
+
+# --- 3. Aliasok ---
+alias ..='cd ..'
+alias ...='cd ../..'
+alias update='sudo pacman -Syu'
+alias mc='mc -u'
+
+# --- 4. Extract (Univerzális kicsomagoló) ---
+extract() {
+    if [ -f \$1 ] ; then
+        case \$1 in
+            *.tar.bz2)   tar xjf \$1     ;;
+            *.tar.gz)    tar xzf \$1     ;;
+            *.bz2)       bunzip2 \$1     ;;
+            *.rar)       unrar x \$1     ;;
+            *.gz)        gunzip \$1      ;;
+            *.tar)       tar xf \$1      ;;
+            *.zip)       unzip \$1       ;;
+            *.7z)        7z x \$1        ;;
+            *)           echo "'\$1' nem kicsomagolható" ;;
+        esac
+    else
+        echo "'\$1' nem érvényes fájl"
+    fi
+}
 EOF
 
-# 3. Zimfw frissítése és modulok letöltése
-echo "Modulok letöltése és telepítése..."
-zsh ~/.zim/zimfw.zsh install
-
-# 4. Alapértelmezett Shell váltás
-if [[ $SHELL != "/usr/bin/zsh" ]]; then
-    echo "Zsh beállítása alapértelmezett shellnek..."
-    sudo chsh -s $(which zsh) $USER
-fi
-
-echo "-------------------------------------------------------"
-echo "ZSH BEÁLLÍTVA!"
-echo "Nyiss egy új terminált a P10k konfigurálásához."
-echo "-------------------------------------------------------"
+echo "Bash konfiguráció kész. Letisztult, stabil, gyors."
