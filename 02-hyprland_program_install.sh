@@ -2,53 +2,46 @@
 set -e
 ###################################################
 ###	Archlinux program telepítő script	###
-###		v3.0 (HYPRLAND)			###
+###			v4.0 (HYPRLAND)				###
 ###################################################
 
-CPU=$(lscpu | grep "AMD" -c)
+echo "--- CachyOS és Felhasználói Programok Telepítése ---"
 
-sudo pacman -Syyu --noconfirm
+# 1. Rendszer és Boot kezelés
+echo "Rendszer alapok telepítése..."
+sudo pacman -S --noconfirm \
+    linux-cachyos linux-cachyos-headers \
+    systemd-boot-manager \
+    cachyos-settings cachyos-hooks \
+    btrfs-assistant snapper snap-pac
 
-# Hyprland es tartozekai
+# 2. Hyprland, UI és Thunar
+echo "Grafikus környezet és Thunar telepítése..."
+sudo pacman -S --noconfirm \
+    hyprland swww foot ddcutil wlsunset thunar \
+    thunar-archive-plugin thunar-volman tumbler ffmpegthumbnailer \
+    gvfs mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon \
+    xdg-desktop-portal-hyprland polkit-gnome \
+    qt5-wayland qt6-wayland fakeroot \
+    ttf-jetbrains-mono-nerd
 
-sudo pacman -S --noconfirm --needed hyprland foot hyprsunset swaync gtklock swaybg nwg-look nwg-panel nwg-drawer
+# 3. Gaming és Performance
+echo "Gaming eszközök telepítése..."
+sudo pacman -S --noconfirm flatpak gamemode lib32-gamemode mangohud
 
-# BETŰTÍPUSOK
+# 4. AUR csomagok (Noctalia, nwg-hello, greetd)
+echo "AUR csomagok fordítása (Noctalia-shell, nwg-hello)..."
+yay -S --noconfirm \
+    noctalia-shell-git \
+    nwg-hello \
+    greetd
 
-sudo pacman -S --noconfirm --needed otf-font-awesome ttf-dejavu noto-fonts noto-fonts-emoji cantarell-fonts
+# 5. Boot bejegyzések legenerálása
+# A pontosított parancs: sdboot-manage gen
+echo "Boot bejegyzések inicializálása..."
+sudo sdboot-manage gen
 
-# KIEGÉSZÍTŐ PROGRAMOK
-
-sudo pacman -S --noconfirm --needed udiskie reflector xdg-user-dirs \
-imagemagick fastfetch network-manager-applet bat git fastfetch \
-polkit-gnome openrgb flatpak hblock mousepad mc zsh openrgb solaar \
-thunar thunar-archive-plugin xdg-user-dirs xdg-desktop-portal-gtk \
-pavucontrol xdg-desktop-portal-hyprland gvfs
-
-# Theams
-sudo pacman -S --noconfirm --needed papirus-icon-theme
-
-
-# TÖMÖRÍTŐK
-#sudo pacman -S --noconfirm --needed unace unrar zip unzip sharutils  uudeview  arj cabextract file-roller
-#sudo pacman -S --noconfirm --needed tar zip unrar 7zip
-sudo pacman -S --noconfirm --needed file-roller zip unrar 7zip unzip
-
-# Gaming
-
-sudo pacman -S --noconfirm --needed lutris steam gamemode lib32-gamemode corectrl \
-discord wine-staging wine-mono wine-gecko vulkan-radeon lib32-vulkan-radeon
-
-# UCode installer - Credit Lordify
-  if [[ $CPU -gt 0 ]]; then
-	  sudo pacman -S amd-ucode --noconfirm
-  else
-	  sudo pacman -S intel-ucode --noconfirm
-  fi
-
-# Adding ucode to boot entries - Credit Lordify
-  if [[ $CPU -gt 0 ]]; then
-	  echo "initrd   /amd-ucode.img" | sudo tee -a /boot/loader/entries/*.conf
-  else
-	  echo "initrd   /intel-ucode.img" | sudo tee -a /boot/loader/entries/*.conf
-  fi
+echo "-------------------------------------------------------"
+echo "A programtelepítés befejeződött!"
+echo "Következő lépés: futtasd a setup.sh-t az SSD-khez és fstab-hoz."
+echo "-------------------------------------------------------"
