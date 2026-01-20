@@ -29,14 +29,30 @@ sudo pacman -S --noconfirm \
 echo "Gaming eszközök telepítése..."
 sudo pacman -S --noconfirm flatpak gamemode lib32-gamemode mangohud
 
-# 4. AUR csomagok (Noctalia, nwg-hello, greetd)
+# 4. Flatpak alkalmazások telepítése és jogosultságok
+echo "Flatpak programok telepítése (Steam, Discord)..."
+if command -v flatpak &> /dev/null; then
+    # Flathub repó hozzáadása (ha még nem lenne ott)
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    
+    # Steam és Discord telepítése (nem kérdez vissza a -y miatt)
+    flatpak install -y flathub com.valvesoftware.Steam
+    flatpak install -y flathub com.discordapp.Discord
+    
+    echo "Steam jogosultságok beállítása a GAMES mappához..."
+    flatpak override --user --filesystem=/mnt/GAMES com.valvesoftware.Steam
+else
+    echo "Hiba: A Flatpak nincs telepítve, a programok kimaradtak."
+fi
+
+# 5. AUR csomagok (Noctalia, nwg-hello, greetd)
 echo "AUR csomagok fordítása (Noctalia-shell, nwg-hello)..."
 yay -S --noconfirm \
     noctalia-shell-git \
     nwg-hello \
     greetd
 
-# 5. Boot bejegyzések legenerálása
+# 6. Boot bejegyzések legenerálása
 # A pontosított parancs: sdboot-manage gen
 echo "Boot bejegyzések inicializálása..."
 sudo sdboot-manage gen
