@@ -39,8 +39,6 @@ if command -v flatpak &> /dev/null; then
     flatpak install -y flathub com.valvesoftware.Steam
     flatpak install -y flathub com.discordapp.Discord
     
-    echo "Steam jogosultságok beállítása a GAMES mappához..."
-    flatpak override --user --filesystem=/mnt/GAMES com.valvesoftware.Steam
 else
     echo "Hiba: A Flatpak nincs telepítve, a programok kimaradtak."
 fi
