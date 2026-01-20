@@ -22,7 +22,7 @@ sudo pacman -S --noconfirm \
     thunar-archive-plugin thunar-volman tumbler ffmpegthumbnailer \
     gvfs mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon \
     xdg-desktop-portal-hyprland polkit-gnome \
-    qt5-wayland qt6-wayland fakeroot makepkg \
+    qt5-wayland qt6-wayland \
     ttf-jetbrains-mono-nerd
 
 # 3. Gaming és Performance
