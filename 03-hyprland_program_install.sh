@@ -14,7 +14,8 @@ sudo pacman -S --noconfirm \
     yay \
     bash-completion base-devel \
     cachyos-settings \
-    btrfs-assistant snapper snap-pac
+    btrfs-assistant snapper snap-pac \
+    grub-btrfs inotify-tools
 
 # 2. Hyprland, UI és Thunar
 echo "Grafikus felület és fájlkezelő telepítése..."
