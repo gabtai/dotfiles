@@ -49,15 +49,18 @@ done
 sudo chown -R :$USER /.snapshots /home/.snapshots
 sudo systemctl enable --now snapper-timeline.timer snapper-cleanup.timer
 
-# 5. GRUB OKOSÍTÁSA (ÚJ RÉSZ)
+# 5. GRUB OKOSÍTÁSA
 echo "--- GRUB beállítása (Ultrawide, Mentés, Snapshotok) ---"
 
-# Felbontás és utolsó választás megjegyzése
+# Felbontás és utolsó választás beállítása
 sudo sed -i 's/GRUB_GFXMODE=.*/GRUB_GFXMODE=3440x1440x32,auto/' /etc/default/grub
 sudo sed -i 's/GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/' /etc/default/grub
 
-# Ha még nincs benne a mentés funkció, hozzáadjuk
-if ! grep -q "GRUB_SAVEDEFAULT=true" /etc/default/grub; then
+# A kikommentezett SAVEDEFAULT aktiválása (töröljük a #-et az elejéről)
+if grep -q "#GRUB_SAVEDEFAULT=true" /etc/default/grub; then
+    sudo sed -i 's/#GRUB_SAVEDEFAULT=true/GRUB_SAVEDEFAULT=true/' /etc/default/grub
+# Ha esetleg egyáltalán nincs benne a fájlban, akkor azért adjuk hozzá
+elif ! grep -q "GRUB_SAVEDEFAULT=true" /etc/default/grub; then
     echo "GRUB_SAVEDEFAULT=true" | sudo tee -a /etc/default/grub
 fi
 
