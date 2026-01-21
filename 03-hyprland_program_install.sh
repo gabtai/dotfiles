@@ -13,7 +13,7 @@ sudo pacman -S --noconfirm \
     linux-cachyos linux-cachyos-headers \
     yay \
     bash-completion base-devel \
-    cachyos-settings cachyos-hooks \
+    cachyos-settings \
     btrfs-assistant snapper snap-pac
 
 # 2. Hyprland, UI és Thunar
