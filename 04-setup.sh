@@ -31,20 +31,35 @@ UUID=$JATEK_UUID /mnt/GAMES btrfs defaults,noatime,compress=zstd:3,autodefrag 0 
 UUID=$ADAT_UUID /mnt/DATA btrfs defaults,noatime,compress=zstd:3,autodefrag 0 2
 EOF
 
-# 4. Snapper konfigurálása és automatizálás (Intelligens ellenőrzéssel)
-if ! snapper list-configs | grep -q "root"; then
-    echo "Snapper konfiguráció létrehozása..."
-    sudo snapper -c root create-config /
+# 4. echo "--- Snapper konfigurációk (root és home) finomhangolása ---"
+
+# Felhasználó hozzáadása a konfigokhoz (hogy lásd őket sudo nélkül is)
+sudo snapper -c root set-config "ALLOW_USERS=$USER" "SYSLOG=yes"
+sudo snapper -c home set-config "ALLOW_USERS=$USER" "SYSLOG=yes"
+
+# Jogosultságok javítása a .snapshots mappákon
+sudo chown -R :$USER /.snapshots
+sudo chown -R :$USER /home/.snapshots
+
+# Túlélési szabályok beállítása (Ne gyűljön a szemét)
+# Csak az utolsó 5 órás, 7 napi és 0 havi mentést tartjuk meg
+for config in root home; do
+    sudo snapper -c $config set-config "TIMELINE_LIMIT_HOURLY=5"
+    sudo snapper -c $config set-config "TIMELINE_LIMIT_DAILY=7"
+    sudo snapper -c $config set-config "TIMELINE_LIMIT_WEEKLY=0"
+    sudo snapper -c $config set-config "TIMELINE_LIMIT_MONTHLY=0"
+    sudo snapper -c $config set-config "TIMELINE_LIMIT_YEARLY=0"
     
-    echo "Jogosultságok és időzítők (Timer) beállítása..."
-    sudo chmod 750 /.snapshots
-    # Alapértelmezett timerek aktiválása
-    sudo systemctl enable --now snapper-boot.timer
-    sudo systemctl enable --now snapper-timeline.timer
-    sudo systemctl enable --now snapper-cleanup.timer
-else
-    echo "A Snapper konfig már létezik, a beállításokat átugrottam."
-fi
+    # Pacman tranzakciók (snap-pac) száma: max 10
+    sudo snapper -c $config set-config "NUMBER_LIMIT=10"
+    sudo snapper -c $config set-config "NUMBER_LIMIT_IMPORTANT=10"
+done
+
+# Időzítők bekapcsolása (hogy a fenti szabályok alapján töröljön is a rendszer)
+sudo systemctl enable --now snapper-timeline.timer
+sudo systemctl enable --now snapper-cleanup.timer
+
+echo "Snapper rendbe rakva: szigorúbb korlátok és felhasználói hozzáférés beállítva."
 
 # 5. Flatpak JOGOSULTSÁGOK
 echo "Steam jogosultság megadása a GAMES SSD-hez..."
