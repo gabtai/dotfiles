@@ -2,7 +2,7 @@
 set -e
 ###################################################
 ###	Archlinux utólagos beállító script	###
-###			v4.2 (FINAL)    				###
+###			v4.3 (GRUB + Snapper)			###
 ###################################################
 
 # 1. SSD UUID-k lekérése
@@ -19,7 +19,6 @@ echo "Mappák létrehozása a /mnt alatt..."
 sudo mkdir -p /mnt/GAMES /mnt/DATA
 
 # 3. FSTAB konfigurálása (tmpfs + Btrfs optimalizáció)
-# Itt adjuk hozzá a RAM disket és az SSD-ket az fstab-hoz
 echo "FSTAB bejegyzések hozzáadása..."
 cat <<EOF | sudo tee -a /etc/fstab
 
@@ -31,44 +30,50 @@ UUID=$JATEK_UUID /mnt/GAMES btrfs defaults,noatime,compress=zstd:3,autodefrag 0 
 UUID=$ADAT_UUID /mnt/DATA btrfs defaults,noatime,compress=zstd:3,autodefrag 0 2
 EOF
 
-# 4. echo "--- Snapper konfigurációk (root és home) finomhangolása ---"
+# 4. SNAPPER KONFIGURÁCIÓK FINOMHANGOLÁSA
+echo "--- Snapper konfigurációk finomhangolása ---"
 
-# Felhasználó hozzáadása a konfigokhoz (hogy lásd őket sudo nélkül is)
-sudo snapper -c root set-config "ALLOW_USERS=$USER" "SYSLOG=yes"
-sudo snapper -c home set-config "ALLOW_USERS=$USER" "SYSLOG=yes"
-
-# Jogosultságok javítása a .snapshots mappákon
-sudo chown -R :$USER /.snapshots
-sudo chown -R :$USER /home/.snapshots
-
-# Túlélési szabályok beállítása (Ne gyűljön a szemét)
-# Csak az utolsó 5 órás, 7 napi és 0 havi mentést tartjuk meg
+# Felhasználó hozzáadása és szabályok
 for config in root home; do
+    sudo snapper -c $config set-config "ALLOW_USERS=$USER" "SYSLOG=yes"
     sudo snapper -c $config set-config "TIMELINE_LIMIT_HOURLY=5"
     sudo snapper -c $config set-config "TIMELINE_LIMIT_DAILY=7"
     sudo snapper -c $config set-config "TIMELINE_LIMIT_WEEKLY=0"
     sudo snapper -c $config set-config "TIMELINE_LIMIT_MONTHLY=0"
     sudo snapper -c $config set-config "TIMELINE_LIMIT_YEARLY=0"
-    
-    # Pacman tranzakciók (snap-pac) száma: max 10
     sudo snapper -c $config set-config "NUMBER_LIMIT=10"
     sudo snapper -c $config set-config "NUMBER_LIMIT_IMPORTANT=10"
 done
 
-# Időzítők bekapcsolása (hogy a fenti szabályok alapján töröljön is a rendszer)
-sudo systemctl enable --now snapper-timeline.timer
-sudo systemctl enable --now snapper-cleanup.timer
+# Jogosultságok és időzítők
+sudo chown -R :$USER /.snapshots /home/.snapshots
+sudo systemctl enable --now snapper-timeline.timer snapper-cleanup.timer
 
-echo "Snapper rendbe rakva: szigorúbb korlátok és felhasználói hozzáférés beállítva."
+# 5. GRUB OKOSÍTÁSA (ÚJ RÉSZ)
+echo "--- GRUB beállítása (Ultrawide, Mentés, Snapshotok) ---"
 
-# 5. Flatpak JOGOSULTSÁGOK
-echo "Steam jogosultság megadása a GAMES SSD-hez..."
+# Felbontás és utolsó választás megjegyzése
+sudo sed -i 's/GRUB_GFXMODE=.*/GRUB_GFXMODE=3440x1440x32,auto/' /etc/default/grub
+sudo sed -i 's/GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/' /etc/default/grub
+
+# Ha még nincs benne a mentés funkció, hozzáadjuk
+if ! grep -q "GRUB_SAVEDEFAULT=true" /etc/default/grub; then
+    echo "GRUB_SAVEDEFAULT=true" | sudo tee -a /etc/default/grub
+fi
+
+# Snapshot figyelő daemon indítása (grub-btrfs része)
+sudo systemctl enable --now grub-btrfsd
+
+# GRUB menü újragenerálása
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+# 6. FLATPAK JOGOSULTSÁGOK
+echo "Steam jogosultság megadása..."
 if command -v flatpak &> /dev/null; then
-    # Csak a jogosultságot állítjuk be, mert a Steam már fent van
     flatpak override --user --filesystem=/mnt/GAMES com.valvesoftware.Steam
 fi
 
-# 6. Meghajtók csatolása és jogosultságok fixálása
+# 7. MEGHAJTÓK CSATOLÁSA ÉS JOGOSULTSÁGOK FIXÁLÁSA
 echo "Meghajtók csatolása és jogosultságok beállítása..."
 sudo mount -a
 sudo chown -R $USER:$USER /mnt/GAMES
