@@ -41,9 +41,6 @@ flatpak install -y flathub com.heroicgameslauncher.hgl
 echo "AUR csomagok telepítése (Noctalia)..."
 yay -S --noconfirm noctalia-shell-git nwg-hello greetd
 
-# 5. Boot bejegyzések frissítése
-sudo sdboot-manage gen
-
 echo "-------------------------------------------------------"
 echo "AZ ALKALMAZÁSOK TELEPÍTÉSE KÉSZ!"
 echo "-------------------------------------------------------"
