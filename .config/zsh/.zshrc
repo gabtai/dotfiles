@@ -1,29 +1,27 @@
-# Előzmények (History) beállítása az új helyen
+# Powerlevel10k indítása (azonnali megjelenés)
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Segédfüggvények betöltése
+source "$ZDOTDIR/zsh-functions"
+
+# Előzmények beállítása
 HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
+setopt appendhistory
 
-# Alapvető opciók
-setopt autocd              # Csak beírod a mappa nevét és belép
-setopt extendedglob        # Bővített globbing minták
-setopt hist_ignore_all_dups # Duplikált parancsok kiszűrése az előzményekből
+# Pluginok betöltése
+zsh_add_plugin "zsh-users/zsh-autosuggestions"
+zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+zsh_add_plugin "le0me55i/zsh-extract"
 
-# Alapértelmezett kiegészítő rendszer (Completion)
+# Powerlevel10k téma betöltése
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+# Aliasok és egyedi beállítások (Mindig a végén!)
+[[ -f "$ZDOTDIR/aliasrc" ]] && source "$ZDOTDIR/aliasrc"
+
+# Tab-kiegészítés inicializálása
 autoload -Uz compinit && compinit
-zstyle ':completion:*' menu select
-
-# Arch Linux specifikus pluginok (ha telepítetted őket pacman-nel)
-# sudo pacman -S zsh-syntax-highlighting zsh-autosuggestions
-[[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-[[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && \
-    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# Egyszerű Prompt (vagy használhatsz starship-et is)
-PROMPT='%F{cyan}%n%f@%F{blue}%m%f %F{green}%~%f %# '
-
-# Aliasok a gyorsabb munkához
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias update='sudo pacman -Syu'
