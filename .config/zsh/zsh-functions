@@ -1,0 +1,32 @@
+function zsh_add_file() {
+    [ -f "$1" ] && source "$1"
+}
+
+function zsh_add_plugin() {
+    local PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
+    local SYS_DIR="/usr/share/zsh/plugins/$PLUGIN_NAME"
+    local LOC_DIR="$ZDOTDIR/plugins/$PLUGIN_NAME"
+
+    # 1. Rendszer szintű (Arch/AUR) ellenőrzés
+    if [ -d "$SYS_DIR" ]; then
+        fpath=($SYS_DIR $fpath)
+        zsh_add_file "$SYS_DIR/$PLUGIN_NAME.zsh" || \
+        zsh_add_file "$SYS_DIR/$PLUGIN_NAME.plugin.zsh" || \
+        zsh_add_file "$SYS_DIR/extract.plugin.zsh"
+        return
+    fi
+
+    # 2. Letöltés, ha nincs meg helyileg
+    if [ ! -d "$LOC_DIR" ]; then
+        echo "Plugin letöltése: $PLUGIN_NAME..."
+        mkdir -p "$ZDOTDIR/plugins"
+        git clone "https://github.com/$1.git" "$LOC_DIR"
+    fi
+
+    # 3. Helyi betöltés és fpath frissítés
+    fpath=($LOC_DIR $fpath)
+    zsh_add_file "$LOC_DIR/$PLUGIN_NAME.plugin.zsh" || \
+    zsh_add_file "$LOC_DIR/$PLUGIN_NAME.zsh" || \
+    zsh_add_file "$LOC_DIR/extract.plugin.zsh" || \
+    zsh_add_file "$LOC_DIR/extract.sh"
+}
