@@ -7,12 +7,12 @@ function zsh_add_plugin() {
     local SYS_DIR="/usr/share/zsh/plugins/$PLUGIN_NAME"
     local LOC_DIR="$ZDOTDIR/plugins/$PLUGIN_NAME"
 
-    # 1. Rendszer szintű (Arch/AUR) ellenőrzés
+    # 1. Rendszerszintű (Arch/AUR) verzió keresése
     if [ -d "$SYS_DIR" ]; then
         fpath=($SYS_DIR $fpath)
-        zsh_add_file "$SYS_DIR/$PLUGIN_NAME.zsh" || \
-        zsh_add_file "$SYS_DIR/$PLUGIN_NAME.plugin.zsh" || \
-        zsh_add_file "$SYS_DIR/extract.plugin.zsh"
+        # Itt is az okos keresést használjuk a biztonság kedvéért
+        local SYS_INIT=$(ls "$SYS_DIR"/*.plugin.zsh "$SYS_DIR"/*.zsh 2>/dev/null | grep -v "/_" | head -n 1)
+        zsh_add_file "$SYS_INIT"
         return
     fi
 
@@ -20,13 +20,21 @@ function zsh_add_plugin() {
     if [ ! -d "$LOC_DIR" ]; then
         echo "Plugin letöltése: $PLUGIN_NAME..."
         mkdir -p "$ZDOTDIR/plugins"
-        git clone "https://github.com/$1.git" "$LOC_DIR"
+        git clone --depth 1 "https://github.com/$1.git" "$LOC_DIR"
     fi
 
     # 3. Helyi betöltés és fpath frissítés
     fpath=($LOC_DIR $fpath)
-    zsh_add_file "$LOC_DIR/$PLUGIN_NAME.plugin.zsh" || \
-    zsh_add_file "$LOC_DIR/$PLUGIN_NAME.zsh" || \
-    zsh_add_file "$LOC_DIR/extract.plugin.zsh" || \
-    zsh_add_file "$LOC_DIR/extract.sh"
+    
+    # Megkeressük az indítófájlt:
+    # - Először a .plugin.zsh-t keressük, utána a sima .zsh-t
+    # - Kizárjuk a kiegészítőket (amik _ jellel kezdődnek)
+    local INIT_FILE=$(ls "$LOC_DIR"/*.plugin.zsh "$LOC_DIR"/*.zsh 2>/dev/null | grep -v "/_" | head -n 1)
+
+    if [ -n "$INIT_FILE" ]; then
+        source "$INIT_FILE"
+    else
+        # Végső mentőöv: ha nincs .zsh, de van .sh (ritka, de előfordul)
+        zsh_add_file "$LOC_DIR/$PLUGIN_NAME.sh"
+    fi
 }
