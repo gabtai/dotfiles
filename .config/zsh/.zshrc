@@ -1,3 +1,4 @@
+
 # Powerlevel10k indítása (azonnali megjelenés)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -13,8 +14,8 @@ SAVEHIST=10000
 setopt appendhistory
 
 # Pluginok betöltése
-zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+zsh_add_plugin "zsh-users/zsh-completions"
 zsh_add_plugin "le0me55i/zsh-extract"
 
 # Powerlevel10k téma betöltése
