@@ -4,37 +4,43 @@ function zsh_add_file() {
 
 function zsh_add_plugin() {
     local PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
-    local SYS_DIR="/usr/share/zsh/plugins/$PLUGIN_NAME"
     local LOC_DIR="$ZDOTDIR/plugins/$PLUGIN_NAME"
+    
+    # --- 1. SPECIÁLIS ESET: zsh-completions ---
+    # Ha Arch-on telepítve van a csomag, csak hozzáadjuk az fpath-hoz
+    if [[ "$PLUGIN_NAME" == "zsh-completions" ]]; then
+        local SYS_COMP="/usr/share/zsh/site-functions"
+        if [ -d "$SYS_COMP" ]; then
+            fpath=($SYS_COMP $fpath)
+            return
+        fi
+    fi
 
-    # 1. Rendszerszintű (Arch/AUR) verzió keresése
+    # --- 2. RENDSZERSZINTŰ PLUGIN ELLENŐRZÉS (Pl. syntax-highlighting) ---
+    local SYS_DIR="/usr/share/zsh/plugins/$PLUGIN_NAME"
     if [ -d "$SYS_DIR" ]; then
         fpath=($SYS_DIR $fpath)
-        # Itt is az okos keresést használjuk a biztonság kedvéért
-        local SYS_INIT=$(ls "$SYS_DIR"/*.plugin.zsh "$SYS_DIR"/*.zsh 2>/dev/null | grep -v "/_" | head -n 1)
-        zsh_add_file "$SYS_INIT"
+        # Megkeressük az indítófájlt (kizárva a _-al kezdődő kiegészítőket)
+        local SYS_INIT=$(find "$SYS_DIR" -maxdepth 1 -name "*.zsh" ! -name "_*" | head -n 1)
+        [ -n "$SYS_INIT" ] && source "$SYS_INIT"
         return
     fi
 
-    # 2. Letöltés, ha nincs meg helyileg
+    # --- 3. LETÖLTÉS (GitHub) ---
     if [ ! -d "$LOC_DIR" ]; then
         echo "Plugin letöltése: $PLUGIN_NAME..."
         mkdir -p "$ZDOTDIR/plugins"
         git clone --depth 1 "https://github.com/$1.git" "$LOC_DIR"
     fi
 
-    # 3. Helyi betöltés és fpath frissítés
+    # --- 4. HELYI BETÖLTÉS (Pl. extract) ---
     fpath=($LOC_DIR $fpath)
     
-    # Megkeressük az indítófájlt:
-    # - Először a .plugin.zsh-t keressük, utána a sima .zsh-t
-    # - Kizárjuk a kiegészítőket (amik _ jellel kezdődnek)
-    local INIT_FILE=$(ls "$LOC_DIR"/*.plugin.zsh "$LOC_DIR"/*.zsh 2>/dev/null | grep -v "/_" | head -n 1)
+    # Okosabb indítófájl keresés:
+    # Először a .plugin.zsh-t nézzük, aztán a sima .zsh-t, kizárva a _* fájlokat
+    local INIT_FILE=$(find "$LOC_DIR" -maxdepth 1 \( -name "*.plugin.zsh" -o -name "*.zsh" \) ! -name "_*" | head -n 1)
 
     if [ -n "$INIT_FILE" ]; then
         source "$INIT_FILE"
-    else
-        # Végső mentőöv: ha nincs .zsh, de van .sh (ritka, de előfordul)
-        zsh_add_file "$LOC_DIR/$PLUGIN_NAME.sh"
     fi
 }
