@@ -1,0 +1,24 @@
+# --- MC & Szerkesztők (villámgyors indítás) ---
+alias mc='mc -u'
+alias mcedit='mcedit -u'
+alias v='nvim'
+
+# --- Általános aliasok ---
+alias ls='ls --color=auto'
+alias ll='ls -lah'
+alias reload='source $ZDOTDIR/.zshrc'
+alias x='extract'
+
+# --- Színes MAN oldalak (Foot terminálhoz is) ---
+export PAGER="less"
+export MANPAGER="less -R"
+export LESS="-R"
+export GROFF_NO_SGR=1
+
+export LESS_TERMCAP_mb=$(printf '\e[1;31m')     # villogás piros
+export LESS_TERMCAP_md=$(printf '\e[1;36m')     # vastag cián
+export LESS_TERMCAP_me=$(printf '\e[0m')        # reset
+export LESS_TERMCAP_so=$(printf '\e[01;33m')    # keresés sárga
+export LESS_TERMCAP_se=$(printf '\e[0m')        # reset
+export LESS_TERMCAP_us=$(printf '\e[1;4;32m')   # aláhúzás zöld
+export LESS_TERMCAP_ue=$(printf '\e[0m')        # reset
