@@ -1,28 +1,44 @@
-
-# Powerlevel10k indítása (azonnali megjelenés)
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# Segédfüggvények betöltése
+# --- 1. Alapok és Funkciók ---
+# A függvényeknek elöl kell lenniük, hogy használhassuk őket
 source "$ZDOTDIR/zsh-functions"
 
-# Előzmények beállítása
+# --- 2. Prompt és Elérési utak (fpath) ---
+# A Pure Prompt-nak az fpath-ban kell lennie a compinit előtt!
+fpath=($ZDOTDIR/plugins/zsh-async $ZDOTDIR/plugins/pure $fpath)
+
+autoload -Uz promptinit && promptinit
+prompt pure
+
+# --- 3. Kiegészítő rendszer (Luke-féle optimalizáció) ---
+# A kiegészítők beállítása a Pure után, de a pluginok ELŐTT
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' special-dirs true
+zstyle ':completion:*' menu select
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# --- 4. Előzmények (History) ---
 HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
+setopt share_history
+setopt interactivecomments
 
-# Pluginok betöltése
-zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+# --- 5. Pluginok betöltése ---
+# A syntax-highlighting mindig az utolsó plugin legyen a listában!
+zsh_add_plugin "zimfw/input"
 zsh_add_plugin "zsh-users/zsh-completions"
 zsh_add_plugin "le0me55i/zsh-extract"
+zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
 
-# Powerlevel10k téma betöltése
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+# --- 6. Dinamikus ablakcím (Luke-féle) ---
+case $TERM in
+    xterm*|foot*|rxvt*)
+        precmd() { print -Pn "\e]0;%n@%m: %~\a" }
+        preexec() { print -Pn "\e]0;$1\a" }
+        ;;
+esac
 
-# Aliasok és egyedi beállítások (Mindig a végén!)
-[[ -f "$ZDOTDIR/aliasrc" ]] && source "$ZDOTDIR/aliasrc"
-
-# Tab-kiegészítés inicializálása
-autoload -Uz compinit && compinit
+# --- 7. Moduláris beállítások ---
+[[ -f "$HOME/.config/shell/aliasrc" ]] && source "$HOME/.config/shell/aliasrc"
