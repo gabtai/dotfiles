@@ -1,0 +1,29 @@
+#!/bin/sh
+# shellcheck disable=SC2155
+
+# Profil fájl - bejelentkezéskor fut le.
+
+# Luke brutális megoldása: a ~/.local/bin és ANNAK ÖSSZES ALMAPÁJA a PATH-ba kerül
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$PATH:$(find ~/.local/bin -type d | paste -sd ':' -)"
+fi
+
+# Alapértelmezett programjaid:
+export EDITOR="nano"      # vagy nvim, micro, amit használsz
+export BROWSER="palemoon"
+
+# XDG Alapkönyvtárak tisztítása (Hogy a home mappád tiszta maradjon):
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# Zsh specifikus takarítás: a .zsh_history és egyebek a helyükre kerülnek
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export HISTFILE="$XDG_DATA_HOME/history"
+
+# Zsh kényelmi fix (Luke fájljából, megelőzi a felesleges üres sorokat)
+unsetopt PROMPT_SP 2>/dev/null
+
+if [ "$(tty)" = "/dev/tty1" ]; then
+    exec Hyprland
+fi
