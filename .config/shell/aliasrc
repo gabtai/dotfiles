@@ -1,7 +1,9 @@
+# Update
+alias update-all='sudo cachyos-rate-mirrors && sudo pacman -Syu && flatpak update'
+
 # --- MC & Szerkesztők (villámgyors indítás) ---
 alias mc='mc -u'
 alias mcedit='mcedit -u'
-alias v='nvim'
 
 # --- Általános aliasok ---
 alias ls='ls --color=auto'

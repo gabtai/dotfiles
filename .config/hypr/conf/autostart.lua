@@ -7,14 +7,21 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("systemctl --user start xdg-desktop-portal-hyprland xdg-desktop-portal")
 
     -- awww daemon
-    hl.exec_cmd("awww-daemon")
+    -- hl.exec_cmd("awww-daemon")
 
     -- Load cursor
     hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
 
     -- Start waybar
---    hl.exec_cmd(HOME .. "/.config/waybar/launch.sh")
+    -- hl.exec_cmd(HOME .. "/.config/waybar/launch.sh")
 
     -- Start polkit daemon
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+
+    -- Start noctalia-shell
+    -- hl.exec_cmd("qs -c noctalia-shell")
+    hl.exec_cmd("noctalia")
+
+    -- USB automount daemon
+    hl.exec_cmd("udiskie &")
 end)
